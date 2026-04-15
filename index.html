@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Cashback</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="logo">Cash<span>Back</span>+</div>
+    <div class="topo-badge">Simulador de Cashback</div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-texto">
+      <h1>Consulte seu cashback</h1>
+      <p>
+        Simule o valor de cashback de acordo com o tipo de cliente, valor da compra e
+        percentual de desconto.
+      </p>
+    </div>
+  </section>
+
+  <main class="pagina">
+    <section class="card-principal">
+      <div class="card-esquerda">
+        <div class="cashback-destaque">
+          <span>5%</span>
+          <small>cashback base</small>
+        </div>
+      </div>
+
+      <div class="card-centro">
+        <h2>Simulação de Cashback</h2>
+        <p class="subtitulo">
+          Preencha os dados abaixo para calcular o cashback da compra.
+        </p>
+
+        <form id="cashback-form">
+          <label for="tipo_cliente">Tipo de cliente</label>
+          <select id="tipo_cliente" required>
+            <option value="">Selecione</option>
+            <option value="normal">Normal</option>
+            <option value="vip">VIP</option>
+          </select>
+
+          <label for="valor_produto">Valor do produto</label>
+          <input type="number" id="valor_produto" step="0.01" required>
+
+          <label for="percentual_desconto">Percentual de desconto</label>
+          <input type="number" id="percentual_desconto" step="0.01" required>
+
+          <button type="submit">Calcular cashback</button>
+        </form>
+      </div>
+
+      <div class="card-direita">
+        <div class="info-box">
+          <h3>Regras</h3>
+          <ul>
+            <li>5% sobre o valor final</li>
+            <li>VIP recebe bônus</li>
+            <li>Acima de R$ 500 dobra</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="resultado-card">
+      <h2>Resultado</h2>
+      <div id="resultado">
+        <p class="resultado-vazio">Preencha os campos e faça a simulação.</p>
+      </div>
+    </section>
+
+    <section class="resultado-card">
+      <h2>Histórico de consultas</h2>
+      <div id="historico">
+        <p class="resultado-vazio">Nenhuma consulta encontrada.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("cashback-form");
+    const resultado = document.getElementById("resultado");
+    const historico = document.getElementById("historico");
+
+    async function carregarHistorico() {
+      const resposta = await fetch("http://127.0.0.1:8000/historico");
+      const dados = await resposta.json();
+
+      if (!dados.length) {
+        historico.innerHTML = '<p class="resultado-vazio">Nenhuma consulta encontrada.</p>';
+        return;
+      }
+
+      historico.innerHTML = `
+        <div class="resultado-grid">
+          ${dados.map(item => `
+            <div class="resultado-item">
+              <span class="resultado-label">Tipo de cliente</span>
+              <strong>${item.tipo_cliente}</strong>
+              <br><br>
+              <span class="resultado-label">Valor do produto</span>
+              <strong>R$ ${item.valor_produto}</strong>
+              <br><br>
+              <span class="resultado-label">Desconto</span>
+              <strong>${item.percentual_desconto}%</strong>
+              <br><br>
+              <span class="resultado-label">Cashback</span>
+              <strong>R$ ${item.cashback}</strong>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const tipo_cliente = document.getElementById("tipo_cliente").value;
+      const valor_produto = Number(document.getElementById("valor_produto").value);
+      const percentual_desconto = Number(document.getElementById("percentual_desconto").value);
+
+      const resposta = await fetch("http://127.0.0.1:8000/calcular", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          valor_produto,
+          percentual_desconto,
+          tipo_cliente
+        })
+      });
+
+      const dados = await resposta.json();
+
+      resultado.innerHTML = `
+        <div class="resultado-grid">
+          <div class="resultado-item">
+            <span class="resultado-label">Tipo de cliente</span>
+            <strong>${dados.tipo_cliente}</strong>
+          </div>
+
+          <div class="resultado-item">
+            <span class="resultado-label">Valor do produto</span>
+            <strong>R$ ${dados.valor_produto}</strong>
+          </div>
+
+          <div class="resultado-item">
+            <span class="resultado-label">Desconto</span>
+            <strong>${dados.percentual_desconto}%</strong>
+          </div>
+
+          <div class="resultado-item destaque">
+            <span class="resultado-label">Cashback</span>
+            <strong>R$ ${dados.cashback}</strong>
+          </div>
+        </div>
+      `;
+
+      carregarHistorico();
+    });
+
+    carregarHistorico();
+  </script>
+</body>
+</html>

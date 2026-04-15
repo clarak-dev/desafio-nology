@@ -1,0 +1,65 @@
+2) Cliente VIP comprando um produto de R$ 600 com cupom de 20% off
+
+Primeiro, calculei o valor final da compra:
+
+R$ 600,00 - 20% = R$ 480,00
+
+Depois, calculei o cashback base:
+
+5% de R$ 480,00 = R$ 24,00
+
+Como o cliente é VIP, ele recebe um bônus de 10% sobre o cashback base:
+
+10% de R$ 24,00 = R$ 2,40
+
+Somando os valores:
+
+R$ 24,00 + R$ 2,40 = R$ 26,40
+
+Portanto, o cashback gerado será de R$ 26,40.
+
+
+3) Cliente comum comprando um produto de R$ 600 com cupom de 10% off
+
+Primeiro, calculei o valor final da compra:
+
+R$ 600,00 - 10% = R$ 540,00
+
+Depois, calculei o cashback base:
+
+5% de R$ 540,00 = R$ 27,00
+
+Como o valor final da compra ficou acima de R$ 500,00, o cashback deve ser dobrado:
+
+R$ 27,00 x 2 = R$ 54,00
+
+Portanto, o cashback gerado será de R$ 54,00.
+
+
+4) Um cliente VIP comprou um produto de R$ 600 usando um cupom de 15% off e recebeu R$ 56,00 de cashback.
+
+Primeiro, o valor final da compra foi:
+
+R$ 600,00 - 15% = R$ 510,00
+
+Depois, calculei o cashback base:
+
+5% de R$ 510,00 = R$ 25,50
+
+Como o cliente é VIP, ele recebe um bônus de 10% sobre o cashback base:
+
+10% de R$ 25,50 = R$ 2,55
+
+Somando os dois:
+
+R$ 25,50 + R$ 2,55 = R$ 28,05
+
+Como o valor final da compra ficou acima de R$ 500,00, o cashback deve ser dobrado:
+
+R$ 28,05 x 2 = R$ 56,10
+
+Então, o valor correto do cashback seria R$ 56,10.
+
+Como o cliente recebeu R$ 56,00, houve uma diferença de R$ 0,10 a menos.
+
+Nesse caso, eu responderia ao cliente informando que ele está certo em questionar o valor, porque pelo cálculo das regras de negócio o cashback correto seria R$ 56,10.
