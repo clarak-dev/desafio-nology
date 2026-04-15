@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from cashback import calcular_cashback
 from database import criar_tabela, salvar_consulta, buscar_consultas_por_ip
@@ -25,7 +26,12 @@ class CashbackRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {"mensagem": "API de cashback funcionando"}
+    return FileResponse("index.html")
+
+
+@app.get("/style.css")
+def css():
+    return FileResponse("style.css")
 
 
 @app.post("/calcular")
@@ -64,9 +70,9 @@ def historico(request: Request):
     for consulta in consultas:
         lista_historico.append({
             "tipo_cliente": consulta[0],
-            "valor_produto": consulta[1],
-            "percentual_desconto": consulta[2],
-            "cashback": consulta[3]
+            "valor_produto": float(consulta[1]),
+            "percentual_desconto": float(consulta[2]),
+            "cashback": float(consulta[3])
         })
 
     return lista_historico

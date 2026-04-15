@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta de Cashback</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header class="topo">
@@ -88,7 +88,7 @@
     const historico = document.getElementById("historico");
 
     async function carregarHistorico() {
-      const resposta = await fetch("http://127.0.0.1:8000/historico");
+      const resposta = await fetch("/historico");
       const dados = await resposta.json();
 
       if (!dados.length) {
@@ -124,7 +124,7 @@
       const valor_produto = Number(document.getElementById("valor_produto").value);
       const percentual_desconto = Number(document.getElementById("percentual_desconto").value);
 
-      const resposta = await fetch("http://127.0.0.1:8000/calcular", {
+      const resposta = await fetch("/calcular", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
